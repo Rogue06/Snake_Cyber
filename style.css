@@ -601,8 +601,14 @@ body {
 
 /* Styles pour les contrôles tactiles */
 .mobile-controls {
-    display: none; /* Caché par défaut, visible sur mobile */
-    margin-top: 20px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 180px;
+    z-index: 100;
+    display: none; /* Cacher par défaut */
 }
 
 .d-pad {
@@ -1051,12 +1057,12 @@ body {
         flex-direction: column;
         align-items: center;
         gap: 10px;
-        padding-bottom: 200px; /* Espace pour les contrôles */
+        padding-bottom: 200px;
     }
 
     .game-controls {
         position: fixed;
-        bottom: 220px; /* Au-dessus de la croix directionnelle */
+        bottom: 220px;
         left: 0;
         width: 100%;
         display: flex;
@@ -1068,57 +1074,33 @@ body {
     }
 
     #gameCanvas {
-        width: 90vw;
-        height: 90vw;
-        max-width: 360px;
-        max-height: 360px;
+        width: 70vw;
+        height: 70vw;
+        max-width: 280px;
+        max-height: 280px;
+    }
+
+    .mobile-controls {
+        width: 200px;
+        height: 200px;
     }
 
     .control-button {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2em;
+        width: 60px;
+        height: 60px;
+        font-size: 1.4em;
         background: rgba(0, 0, 0, 0.7);
+        border: 2px solid var(--neon-blue);
     }
-
-    .control-button:active {
-        background: rgba(0, 255, 255, 0.3);
-    }
-
-    /* Ajuster la position des boutons de la croix */
-    .control-button.up { top: 0; left: 65px; }
-    .control-button.left { left: 15px; top: 65px; }
-    .control-button.right { right: 15px; top: 65px; }
-    .control-button.down { bottom: 0; left: 65px; }
 }
 
-/* Ajustements spécifiques pour le mode portrait */
+/* Ajuster l'espacement en mode portrait */
 @media screen and (orientation: portrait) {
-    .mobile-controls {
-        bottom: 40px;
+    .game-active .mobile-controls {
+        bottom: 60px;
     }
 
-    .game-wrapper {
-        padding-bottom: 240px;
-    }
-}
-
-/* Ajustements spécifiques pour le mode paysage */
-@media screen and (orientation: landscape) {
-    .mobile-controls {
-        right: 20px;
-        left: auto;
-        transform: none;
-    }
-
-    .game-wrapper {
-        padding-bottom: 20px;
-        padding-right: 200px;
-    }
-
-    .game-controls {
-        position: static;
-        background: none;
-        padding: 0;
+    .game-active .game-wrapper {
+        padding-bottom: 280px;
     }
 }
