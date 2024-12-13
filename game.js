@@ -57,6 +57,47 @@ const sounds = {
   pause: document.getElementById("pauseSound"),
 };
 
+const orientationMessage = document.querySelector(".orientation-message");
+
+// Améliorer la détection mobile pour exclure les ordinateurs
+function isMobileDevice() {
+  // Vérifier spécifiquement les appareils mobiles et tablettes
+  const mobileRegex =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  const userAgent = navigator.userAgent;
+
+  // Exclure explicitement les MacBooks et autres ordinateurs
+  const isLaptop = /Macintosh|MacIntel|MacPPC|Mac68K|Windows NT|Linux/i.test(
+    userAgent
+  );
+
+  return mobileRegex.test(userAgent) && !isLaptop;
+}
+
+// Ajouter une fonction pour gérer le message temporaire
+function showOrientationMessage() {
+  if (isMobileDevice() && window.innerHeight > window.innerWidth) {
+    orientationMessage.classList.remove("hidden");
+    setTimeout(() => {
+      orientationMessage.classList.add("hidden");
+    }, 3000); // 3 secondes
+  }
+}
+
+// Modifier la fonction handleOrientation
+function handleOrientation() {
+  if (isMobileDevice()) {
+    showOrientationMessage();
+  } else {
+    orientationMessage.classList.add("hidden");
+  }
+}
+
+window.addEventListener("resize", handleOrientation);
+window.addEventListener("orientationchange", handleOrientation);
+
+document.addEventListener("DOMContentLoaded", handleOrientation);
+
 function playSound(soundName) {
   const sound = sounds[soundName];
   if (sound) {
@@ -142,6 +183,9 @@ function changeDirection(event) {
 }
 
 function startGame() {
+  if (isMobileDevice() && window.innerHeight > window.innerWidth) {
+    showOrientationMessage();
+  }
   gameActive = true;
   document.body.classList.add("game-active");
   menuElement.classList.add("hidden");
