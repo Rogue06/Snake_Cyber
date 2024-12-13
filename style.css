@@ -6,6 +6,7 @@
     --grid-color-dark: rgba(0, 247, 255, 0.15);
     --grid-color-light: rgba(0, 247, 255, 0.4);
     --grid-size: 20px;
+    --mobile-breakpoint: 768px;
 }
 
 body {
@@ -38,6 +39,7 @@ body {
     padding: 10px;
     margin-bottom: 10px;
     text-align: center;
+    position: relative;
 }
 
 .screen-content {
@@ -102,6 +104,8 @@ body {
         0 0 20px var(--neon-blue);
     transform-style: preserve-3d;
     animation: neonWave 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
 }
 
 .cyber-title::before,
@@ -186,8 +190,7 @@ body {
     background-image: 
         linear-gradient(var(--grid-color-dark) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-color-dark) 1px, transparent 1px);
-    background-size: var(--grid-size) var(--grid-size);
-    background-position: 0 0;
+    background-size: 20px 20px;
     border: 2px solid var(--neon-blue);
     box-shadow: 
         0 0 10px var(--neon-blue),
@@ -205,8 +208,27 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 30px;
+    gap: 20px;
+}
+
+.menu-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.menu-row .cyber-button {
+    font-size: 0.9em;
+    padding: 12px 20px;
+    min-width: 220px;
+    text-align: center;
+}
+
+#startButton {
+    font-size: 1.5em;
+    padding: 20px 40px;
+    margin-bottom: 10px;
 }
 
 .game-wrapper {
@@ -469,4 +491,396 @@ body {
     justify-content: center;
     gap: 15px;
     padding-right: 20px; /* Plus d'espace pour le carré de couleur */
+    width: 220px;
+}
+
+/* Styles responsive */
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+
+    .arcade-cabinet {
+        padding: 10px;
+        max-height: none;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #gameCanvas {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+        max-width: 360px;
+    }
+
+    .cyber-button {
+        padding: 10px 20px;
+        font-size: 0.8em;
+    }
+
+    .cyber-title {
+        font-size: 1.8em;
+    }
+
+    .score, .high-score {
+        font-size: 0.8em;
+    }
+
+    .control-instructions {
+        display: none; /* Cacher les instructions clavier sur mobile */
+    }
+}
+
+/* Styles pour les contrôles tactiles */
+.mobile-controls {
+    display: none; /* Caché par défaut, visible sur mobile */
+    margin-top: 20px;
+}
+
+.d-pad {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+.control-button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px var(--neon-blue);
+    transition: all 0.2s;
+}
+
+.control-button:active {
+    background: rgba(0, 255, 255, 0.2);
+    transform: scale(0.95);
+}
+
+.control-button.up { top: 0; left: 50px; }
+.control-button.left { left: 0; top: 50px; }
+.control-button.right { right: 0; top: 50px; }
+.control-button.down { bottom: 0; left: 50px; }
+
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: block;
+    }
+}
+
+/* Ajouter les styles pour la liste des high scores */
+.high-scores-list {
+    margin: 20px 0;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.high-scores-header, .high-score-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    gap: 20px;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--neon-blue);
+}
+
+.high-scores-header {
+    color: var(--neon-blue);
+    font-weight: bold;
+    border-bottom: 2px solid var(--neon-blue);
+}
+
+.high-score-item {
+    color: #fff;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+.high-score-item:nth-child(odd) {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+/* Style pour la barre de défilement */
+.high-scores-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.high-scores-list::-webkit-scrollbar-track {
+    background: #000;
+}
+
+.high-scores-list::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 4px;
+}
+
+.high-scores-list::-webkit-scrollbar-thumb:hover {
+    background: #0ff;
+}
+
+/* Styles pour le nouveau menu */
+.menu-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.main-button {
+    font-size: 1.5em;
+    padding: 20px 40px;
+}
+
+.menu-options {
+    display: flex;
+    gap: 15px;
+}
+
+.option-button {
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.option-button:hover {
+    background: rgba(0, 255, 255, 0.2);
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+.option-button .icon {
+    font-size: 1.5em;
+}
+
+.option-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.settings-grid {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.cyber-button.small {
+    padding: 8px 16px;
+    font-size: 0.8em;
+}
+
+.back-button {
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+/* Modifier l'animation du serpent */
+.snake-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.snake-head, .snake-segment {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+    animation: snakeMove 8s linear infinite;
+    opacity: 0;
+}
+
+.snake-segment:nth-child(2) { 
+    animation-delay: -0.2s; 
+    opacity: 0;
+    animation: snakeMove 8s linear infinite,
+               growSegment 8s step-end infinite;
+}
+
+.snake-segment:nth-child(3) { 
+    animation-delay: -0.4s; 
+    opacity: 0;
+    animation: snakeMove 8s linear infinite,
+               growSegment 16s step-end infinite;
+}
+
+.snake-segment:nth-child(4) { 
+    animation-delay: -0.6s; 
+    opacity: 0;
+    animation: snakeMove 8s linear infinite,
+               growSegment 24s step-end infinite;
+}
+
+.snake-segment:nth-child(5) { 
+    animation-delay: -0.8s; 
+    opacity: 0;
+    animation: snakeMove 8s linear infinite,
+               growSegment 32s step-end infinite;
+}
+
+.snake-food {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ff00ff;
+    box-shadow: 0 0 10px #ff00ff;
+    animation: foodMove 8s linear infinite;
+}
+
+@keyframes snakeMove {
+    0% {
+        top: -15px;
+        left: 0;
+        opacity: 1;
+    }
+    24% {
+        top: -15px;
+        left: calc(100% - 15px);
+        opacity: 1;
+    }
+    25% {
+        top: -15px;
+        left: calc(100% - 15px);
+        transform: rotate(90deg);
+    }
+    49% {
+        top: calc(100% - 15px);
+        left: calc(100% - 15px);
+        transform: rotate(90deg);
+        opacity: 1;
+    }
+    50% {
+        top: calc(100% - 15px);
+        left: calc(100% - 15px);
+        transform: rotate(180deg);
+    }
+    74% {
+        top: calc(100% - 15px);
+        left: 0;
+        transform: rotate(180deg);
+        opacity: 1;
+    }
+    75% {
+        top: calc(100% - 15px);
+        left: 0;
+        transform: rotate(270deg);
+    }
+    99% {
+        top: -15px;
+        left: 0;
+        transform: rotate(270deg);
+        opacity: 1;
+    }
+    100% {
+        top: -15px;
+        left: 0;
+        transform: rotate(360deg);
+        opacity: 1;
+    }
+}
+
+@keyframes growSegment {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+@keyframes foodMove {
+    0%, 23% {
+        top: -15px;
+        left: calc(100% - 15px);
+        opacity: 1;
+        transform: scale(1);
+    }
+    24% {
+        transform: scale(1.5);
+    }
+    25% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    26%, 48% {
+        top: calc(100% - 15px);
+        left: calc(100% - 15px);
+        opacity: 1;
+        transform: scale(1);
+    }
+    49% {
+        transform: scale(1.5);
+    }
+    50% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    51%, 73% {
+        top: calc(100% - 15px);
+        left: 0;
+        opacity: 1;
+        transform: scale(1);
+    }
+    74% {
+        transform: scale(1.5);
+    }
+    75% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    76%, 98% {
+        top: -15px;
+        left: 0;
+        opacity: 1;
+        transform: scale(1);
+    }
+    99% {
+        transform: scale(1.5);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+/* Désactiver l'animation pendant le jeu */
+.game-active .cyber-title,
+.game-active .cyber-title::before,
+.game-active .cyber-title::after {
+    animation: none;
+    transform: none;
+    opacity: 0.7;
 }

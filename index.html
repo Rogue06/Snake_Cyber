@@ -2,6 +2,10 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>CyberSnake 2077</title>
     <link rel="stylesheet" href="style.css" />
     <link
@@ -13,19 +17,32 @@
     <div class="arcade-cabinet">
       <div class="cabinet-top">
         <h1 class="cyber-title">SNAKE GAME</h1>
+        <div class="snake-animation">
+          <div class="snake-head"></div>
+          <div class="snake-segment"></div>
+          <div class="snake-segment"></div>
+          <div class="snake-segment"></div>
+          <div class="snake-segment"></div>
+          <div class="snake-food"></div>
+        </div>
       </div>
 
       <div id="menu" class="menu-container screen-content">
         <div class="screen-overlay"></div>
         <div class="menu-buttons">
           <button id="startButton" class="cyber-button">START GAME</button>
-          <button id="difficultyButton" class="cyber-button">
-            DIFFICULTY: NORMAL
-          </button>
-          <button id="colorButton" class="cyber-button">
-            SNAKE COLOR <span id="colorPreview" class="color-preview"></span>
-          </button>
-          <button id="themeButton" class="cyber-button">THEME: DARK</button>
+          <div class="menu-row">
+            <button id="difficultyButton" class="cyber-button">
+              DIFFICULTY: NORMAL
+            </button>
+            <button id="colorButton" class="cyber-button">
+              COLOR <span id="colorPreview" class="color-preview"></span>
+            </button>
+          </div>
+          <div class="menu-row">
+            <button id="themeButton" class="cyber-button">THEME: DARK</button>
+            <button id="highScoresButton" class="cyber-button">SCORES</button>
+          </div>
         </div>
         <div class="high-score">HIGH SCORE: <span id="highScore">0</span></div>
       </div>
@@ -54,7 +71,7 @@
 
       <div class="cabinet-controls">
         <div class="control-instructions">
-          <p>↑↓←��� : MOVE</p>
+          <p>↑↓← : MOVE</p>
           <p>SPACE : PAUSE</p>
         </div>
       </div>
@@ -69,6 +86,52 @@
         <button id="restartButton" class="cyber-button">RESTART</button>
         <button id="backToMenuButton" class="cyber-button">MENU</button>
       </div>
+    </div>
+    <div id="highScoresModal" class="modal hidden" style="display: none">
+      <div class="modal-content cyber-window">
+        <h2 class="modal-title">HIGH SCORES</h2>
+        <div class="high-scores-list">
+          <div class="high-scores-header">
+            <span>RANK</span>
+            <span>SCORE</span>
+            <span>DATE</span>
+          </div>
+          <div id="highScoresList"></div>
+        </div>
+        <button id="closeHighScoresButton" class="cyber-button">CLOSE</button>
+      </div>
+    </div>
+    <div class="mobile-controls">
+      <div class="d-pad">
+        <button id="upButton" class="control-button up">↑</button>
+        <button id="leftButton" class="control-button left">←</button>
+        <button id="rightButton" class="control-button right">→</button>
+        <button id="downButton" class="control-button down">↓</button>
+      </div>
+    </div>
+    <div class="hidden">
+      <audio
+        id="menuSelectSound"
+        src="sounds/menu-select.wav"
+        preload="auto"
+      ></audio>
+      <audio
+        id="menuClickSound"
+        src="sounds/menu-click.wav"
+        preload="auto"
+      ></audio>
+      <audio
+        id="gameStartSound"
+        src="sounds/game-start.wav"
+        preload="auto"
+      ></audio>
+      <audio id="eatSound" src="sounds/eat.wav" preload="auto"></audio>
+      <audio
+        id="gameOverSound"
+        src="sounds/game-over.wav"
+        preload="auto"
+      ></audio>
+      <audio id="pauseSound" src="sounds/pause.wav" preload="auto"></audio>
     </div>
     <script src="game.js"></script>
   </body>

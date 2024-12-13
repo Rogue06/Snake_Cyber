@@ -12,7 +12,7 @@ let dy = 0;
 let score = 0;
 let gameActive = false;
 let difficulty = "NORMAL";
-let gameSpeed = 100;
+let gameSpeed = 200;
 let snakeColor = "#00ff00";
 let highScore = 0;
 let isPaused = false;
@@ -34,7 +34,46 @@ const restartButton = document.getElementById("restartButton");
 const backToMenuButton = document.getElementById("backToMenuButton");
 const colorPreview = document.getElementById("colorPreview");
 
-startButton.addEventListener("click", startGame);
+const upButton = document.getElementById("upButton");
+const leftButton = document.getElementById("leftButton");
+const rightButton = document.getElementById("rightButton");
+const downButton = document.getElementById("downButton");
+
+const highScoresModal = document.getElementById("highScoresModal");
+const highScoresList = document.getElementById("highScoresList");
+const highScoresButton = document.getElementById("highScoresButton");
+const closeHighScoresButton = document.getElementById("closeHighScoresButton");
+
+const optionButtons = document.querySelectorAll(".option-button");
+const optionPanels = document.querySelectorAll(".option-panel");
+const backButtons = document.querySelectorAll(".back-button");
+
+const sounds = {
+  menuSelect: document.getElementById("menuSelectSound"),
+  menuClick: document.getElementById("menuClickSound"),
+  gameStart: document.getElementById("gameStartSound"),
+  eat: document.getElementById("eatSound"),
+  gameOver: document.getElementById("gameOverSound"),
+  pause: document.getElementById("pauseSound"),
+};
+
+function playSound(soundName) {
+  const sound = sounds[soundName];
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch((err) => console.log("Audio error:", err));
+  }
+}
+
+document.querySelectorAll(".cyber-button").forEach((button) => {
+  button.addEventListener("mouseenter", () => playSound("menuSelect"));
+});
+
+startButton.addEventListener("click", () => {
+  playSound("gameStart");
+  startGame();
+});
+
 menuButton.addEventListener("click", showMenu);
 difficultyButton.addEventListener("click", changeDifficulty);
 colorButton.addEventListener("click", changeSnakeColor);
@@ -44,6 +83,19 @@ restartButton.addEventListener("click", startGame);
 backToMenuButton.addEventListener("click", showMenu);
 
 document.addEventListener("keydown", changeDirection);
+
+optionButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const panelId = button.dataset.panel + "Panel";
+    document.getElementById(panelId).classList.remove("hidden");
+  });
+});
+
+backButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    button.closest(".option-panel").classList.add("hidden");
+  });
+});
 
 function changeDirection(event) {
   const SPACE_KEY = 32;
@@ -91,6 +143,7 @@ function changeDirection(event) {
 
 function startGame() {
   gameActive = true;
+  document.body.classList.add("game-active");
   menuElement.classList.add("hidden");
   gameContainer.classList.remove("hidden");
   gameOverModal.classList.add("hidden");
@@ -99,10 +152,17 @@ function startGame() {
   drawGame();
   colorPreview.style.backgroundColor = snakeColor;
   colorPreview.style.color = snakeColor;
+
+  if (window.innerWidth <= 768) {
+    const containerWidth = gameContainer.clientWidth - 40;
+    canvas.style.width = `${Math.min(360, containerWidth)}px`;
+    canvas.style.height = canvas.style.width;
+  }
 }
 
 function showMenu() {
   gameActive = false;
+  document.body.classList.remove("game-active");
   menuElement.classList.remove("hidden");
   gameContainer.classList.add("hidden");
   gameOverModal.classList.add("hidden");
@@ -113,15 +173,15 @@ function changeDifficulty() {
   switch (difficulty) {
     case "NORMAL":
       difficulty = "HARD";
-      gameSpeed = 70;
+      gameSpeed = 150;
       break;
     case "HARD":
       difficulty = "EASY";
-      gameSpeed = 130;
+      gameSpeed = 250;
       break;
     default:
       difficulty = "NORMAL";
-      gameSpeed = 100;
+      gameSpeed = 200;
   }
   difficultyButton.textContent = `DIFFICULTY: ${difficulty}`;
 }
@@ -154,6 +214,7 @@ function moveSnake() {
   snake.unshift(head);
 
   if (head.x === food.x && head.y === food.y) {
+    playSound("eat");
     score += 10;
     scoreElement.textContent = score;
     createEatingEffect(food.x, food.y);
@@ -228,18 +289,25 @@ function resetGame() {
   isPaused = false;
   pauseButton.textContent = "PAUSE";
   pauseButton.classList.remove("paused");
+
+  clearCanvas();
+  drawSnake();
+  drawFood();
 }
 
 function gameOver() {
   gameActive = false;
+  playSound("gameOver");
   finalScore.textContent = score;
   finalHighScore.textContent = highScore;
+  saveScore(score);
   gameOverModal.classList.remove("hidden");
   gameOverModal.style.display = "flex";
 }
 
 function togglePause() {
   isPaused = !isPaused;
+  playSound("pause");
   if (isPaused) {
     pauseButton.textContent = "RESUME";
     pauseButton.classList.add("paused");
@@ -315,4 +383,101 @@ function createEatingEffect(x, y) {
   animateParticles();
 }
 
+function addMobileControls() {
+  upButton.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    if (!isPaused && gameActive && dy !== 1) {
+      dx = 0;
+      dy = -1;
+    }
+  });
+
+  leftButton.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    if (!isPaused && gameActive && dx !== 1) {
+      dx = -1;
+      dy = 0;
+    }
+  });
+
+  rightButton.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    if (!isPaused && gameActive && dx !== -1) {
+      dx = 1;
+      dy = 0;
+    }
+  });
+
+  downButton.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    if (!isPaused && gameActive && dy !== -1) {
+      dx = 0;
+      dy = 1;
+    }
+  });
+}
+
+document.addEventListener(
+  "touchmove",
+  (e) => {
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+  },
+  { passive: false }
+);
+
+addMobileControls();
+
 drawGame();
+
+highScoresButton.addEventListener("click", showHighScores);
+closeHighScoresButton.addEventListener("click", () => {
+  highScoresModal.style.display = "none";
+});
+
+function saveScore(score) {
+  const scores = getHighScores();
+  const newScore = {
+    score: score,
+    date: new Date().toLocaleDateString(),
+    difficulty: difficulty,
+  };
+
+  scores.push(newScore);
+  scores.sort((a, b) => b.score - a.score);
+  scores.splice(10); // Garder seulement les 10 meilleurs scores
+
+  localStorage.setItem("snakeHighScores", JSON.stringify(scores));
+}
+
+function getHighScores() {
+  const scores = localStorage.getItem("snakeHighScores");
+  return scores ? JSON.parse(scores) : [];
+}
+
+function showHighScores() {
+  const scores = getHighScores();
+  highScoresList.innerHTML = "";
+
+  scores.forEach((score, index) => {
+    const scoreElement = document.createElement("div");
+    scoreElement.className = "high-score-item";
+    scoreElement.innerHTML = `
+            <span>#${index + 1}</span>
+            <span>${score.score} (${score.difficulty})</span>
+            <span>${score.date}</span>
+        `;
+    highScoresList.appendChild(scoreElement);
+  });
+
+  highScoresModal.style.display = "flex";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const scores = getHighScores();
+  if (scores.length > 0) {
+    highScore = Math.max(...scores.map((s) => s.score));
+    highScoreElement.textContent = highScore;
+  }
+});
