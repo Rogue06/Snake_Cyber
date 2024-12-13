@@ -1027,3 +1027,98 @@ body {
         flex-direction: column;
     }
 }
+
+/* Améliorer les contrôles mobiles */
+.mobile-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 180px;
+    z-index: 100;
+}
+
+.d-pad {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Ajuster les styles pour mobile */
+@media (max-width: 768px) {
+    .game-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 200px; /* Espace pour les contrôles */
+    }
+
+    .game-controls {
+        position: fixed;
+        bottom: 220px; /* Au-dessus de la croix directionnelle */
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 10px;
+        z-index: 100;
+    }
+
+    #gameCanvas {
+        width: 90vw;
+        height: 90vw;
+        max-width: 360px;
+        max-height: 360px;
+    }
+
+    .control-button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2em;
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    .control-button:active {
+        background: rgba(0, 255, 255, 0.3);
+    }
+
+    /* Ajuster la position des boutons de la croix */
+    .control-button.up { top: 0; left: 65px; }
+    .control-button.left { left: 15px; top: 65px; }
+    .control-button.right { right: 15px; top: 65px; }
+    .control-button.down { bottom: 0; left: 65px; }
+}
+
+/* Ajustements spécifiques pour le mode portrait */
+@media screen and (orientation: portrait) {
+    .mobile-controls {
+        bottom: 40px;
+    }
+
+    .game-wrapper {
+        padding-bottom: 240px;
+    }
+}
+
+/* Ajustements spécifiques pour le mode paysage */
+@media screen and (orientation: landscape) {
+    .mobile-controls {
+        right: 20px;
+        left: auto;
+        transform: none;
+    }
+
+    .game-wrapper {
+        padding-bottom: 20px;
+        padding-right: 200px;
+    }
+
+    .game-controls {
+        position: static;
+        background: none;
+        padding: 0;
+    }
+}
