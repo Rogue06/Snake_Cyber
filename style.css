@@ -602,52 +602,78 @@ body {
 /* Styles pour les contrôles tactiles */
 .mobile-controls {
     position: fixed;
-    bottom: 20px;
+    bottom: 100px;
     left: 50%;
     transform: translateX(-50%);
     width: 180px;
     height: 180px;
     z-index: 100;
-    display: none; /* Cacher par défaut */
+    display: none;
 }
 
 .d-pad {
     position: relative;
-    width: 150px;
-    height: 150px;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
 }
 
+/* Positionner les boutons en croix */
 .control-button {
     position: absolute;
     width: 50px;
     height: 50px;
-    background: transparent;
+    background: rgba(0, 0, 0, 0.7);
     border: 2px solid var(--neon-blue);
     color: var(--neon-blue);
-    font-family: 'Press Start 2P', cursive;
     font-size: 1.2em;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 10px var(--neon-blue);
-    transition: all 0.2s;
 }
 
-.control-button:active {
-    background: rgba(0, 255, 255, 0.2);
-    transform: scale(0.95);
+.control-button.up {
+    top: 0;
+    left: 65px;
 }
 
-.control-button.up { top: 0; left: 50px; }
-.control-button.left { left: 0; top: 50px; }
-.control-button.right { right: 0; top: 50px; }
-.control-button.down { bottom: 0; left: 50px; }
+.control-button.down {
+    bottom: 0;
+    left: 65px;
+}
 
-@media (max-width: 768px) {
+.control-button.left {
+    left: 0;
+    top: 65px;
+}
+
+.control-button.right {
+    right: 0;
+    top: 65px;
+}
+
+/* Ajustements spécifiques pour le mode portrait */
+@media screen and (orientation: portrait) {
+    .game-active .mobile-controls {
+        bottom: 40px;
+    }
+
+    .game-active .game-wrapper {
+        padding-bottom: 240px;
+    }
+}
+
+/* Ajustements spécifiques pour le mode paysage */
+@media screen and (orientation: landscape) {
     .mobile-controls {
-        display: block;
+        right: 20px;
+        left: auto;
+        transform: none;
+    }
+
+    .game-wrapper {
+        padding-bottom: 20px;
+        padding-right: 200px;
     }
 }
 
@@ -1051,123 +1077,166 @@ body {
     height: 100%;
 }
 
-/* Ajuster les styles pour mobile */
+/* Styles pour mobile */
 @media (max-width: 768px) {
-    .game-wrapper {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 200px;
-    }
-
-    .game-controls {
-        position: fixed;
-        bottom: 220px;
-        left: 0;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        background: rgba(0, 0, 0, 0.8);
-        padding: 10px;
-        z-index: 100;
-    }
-
-    #gameCanvas {
-        width: 70vw;
-        height: 70vw;
-        max-width: 280px;
-        max-height: 280px;
-    }
-
-    .mobile-controls {
-        width: 200px;
-        height: 200px;
-    }
-
-    .control-button {
-        width: 60px;
-        height: 60px;
-        font-size: 1.4em;
-        background: rgba(0, 0, 0, 0.7);
-        border: 2px solid var(--neon-blue);
-    }
-}
-
-/* Ajuster l'espacement en mode portrait */
-@media screen and (orientation: portrait) {
-    .game-active .mobile-controls {
-        bottom: 60px;
-    }
-
-    .game-active .game-wrapper {
-        padding-bottom: 280px;
-    }
-}
-
-/* Cacher le titre pendant le jeu sur mobile */
-@media (max-width: 768px) {
+    /* Styles existants pour le canvas et les boutons PAUSE/MENU */
     .game-active .cyber-title {
         display: none;
     }
 
-    .game-active .cabinet-top {
-        margin-bottom: 0;
-        padding: 0;
-    }
-
-    .game-wrapper {
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 200px;
-        margin-top: 0; /* Réduire l'espace en haut */
-    }
-
     #gameCanvas {
-        width: 60vw; /* Réduire encore plus la taille */
+        width: 60vw;
         height: 60vw;
-        max-width: 240px; /* Plus petit que précédemment */
+        max-width: 240px;
         max-height: 240px;
+        margin-bottom: 20px;
     }
 
+    /* Garder les styles actuels pour PAUSE et MENU */
     .game-controls {
-        position: fixed;
-        bottom: 240px; /* Remonter un peu les boutons */
-        left: 0;
+        position: relative;
+        bottom: auto;
+        margin-bottom: 20px;
         width: 100%;
         display: flex;
         justify-content: center;
         gap: 20px;
-        background: rgba(0, 0, 0, 0.8);
         padding: 10px;
         z-index: 100;
     }
 
+    /* Styles pour la croix directionnelle */
     .mobile-controls {
-        width: 220px; /* Augmenter légèrement la taille des contrôles */
-        height: 220px;
-        bottom: 20px;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto;
+        position: relative;
+        display: none; /* Caché par défaut */
+    }
+
+    /* Afficher les contrôles quand le jeu est actif */
+    .game-active .mobile-controls {
+        display: block;
+    }
+
+    .d-pad {
+        position: relative;
+        width: 100%;
+        height: 100%;
     }
 
     .control-button {
-        width: 65px;
-        height: 65px;
-        font-size: 1.5em;
+        position: absolute;
+        width: 55px;
+        height: 55px;
+        font-size: 1.4em;
+        background: rgba(0, 0, 0, 0.7);
+        border: 2px solid var(--neon-blue);
+        box-shadow: 0 0 10px var(--neon-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--neon-blue);
+        z-index: 1000; /* S'assurer que les boutons sont au-dessus */
+    }
+
+    /* Position des boutons en croix */
+    .control-button.up {
+        top: 0;
+        left: 62.5px; /* (180px - 55px) / 2 */
+    }
+
+    .control-button.down {
+        bottom: 0;
+        left: 62.5px;
+    }
+
+    .control-button.left {
+        left: 0;
+        top: 62.5px;
+    }
+
+    .control-button.right {
+        right: 0;
+        top: 62.5px;
+    }
+
+    /* Effet au clic */
+    .control-button:active {
+        background: rgba(0, 255, 255, 0.3);
+        transform: scale(0.95);
     }
 }
 
-/* Ajustements spécifiques pour le mode portrait en jeu */
-@media screen and (orientation: portrait) {
-    .game-active .game-wrapper {
-        padding-bottom: 300px;
+    /* Ajuster le wrapper du jeu */
+    .game-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 20px;
     }
+}
 
-    .game-active .mobile-controls {
-        bottom: 40px;
-    }
+/* Supprimer les styles d'orientation message car on ne l'utilise plus */
+.orientation-message {
+    display: none;
+}
 
-    .game-active .score {
-        margin: 10px 0; /* Réduire les marges du score */
-    }
+/* Styles pour les contrôles mobiles */
+.mobile-controls {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180px;
+    height: 180px;
+    z-index: 1000;
+    display: none; /* Caché par défaut */
+}
+
+/* Afficher les contrôles quand le jeu est actif */
+body.game-active .mobile-controls {
+    display: block !important; /* Forcer l'affichage quand le jeu est actif */
+}
+
+/* Style des boutons de la croix */
+.control-button {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    font-size: 1.4em;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Position des boutons en croix */
+.control-button.up {
+    top: 0;
+    left: 62.5px;
+}
+
+.control-button.down {
+    bottom: 0;
+    left: 62.5px;
+}
+
+.control-button.left {
+    left: 0;
+    top: 62.5px;
+}
+
+.control-button.right {
+    right: 0;
+    top: 62.5px;
+}
+
+/* Effet au clic */
+.control-button:active {
+    background: rgba(0, 255, 255, 0.3);
+    transform: scale(0.95);
 }
