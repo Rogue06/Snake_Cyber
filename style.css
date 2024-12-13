@@ -497,14 +497,45 @@ body {
 /* Styles responsive */
 @media (max-width: 768px) {
     body {
-        padding: 5px;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
     }
 
     .arcade-cabinet {
-        padding: 10px;
-        max-height: none;
         width: 100%;
-        box-sizing: border-box;
+        height: 100%;
+        max-height: 100vh;
+        padding: 10px;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cyber-title {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
+
+    .menu-buttons {
+        gap: 10px;
+    }
+
+    .menu-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .menu-row .cyber-button {
+        width: 100%;
+        padding: 10px;
+        font-size: 0.8em;
+        margin: 2px 0;
+    }
+
+    #startButton {
+        font-size: 1.2em;
+        padding: 15px 30px;
     }
 
     #gameCanvas {
@@ -514,21 +545,57 @@ body {
         max-width: 360px;
     }
 
-    .cyber-button {
-        padding: 10px 20px;
-        font-size: 0.8em;
+    .game-wrapper {
+        margin: 5px;
+        gap: 10px;
     }
 
-    .cyber-title {
-        font-size: 1.8em;
+    .game-controls {
+        margin-top: 10px;
+    }
+
+    .mobile-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 180px;
+        height: 180px;
+    }
+
+    .control-button {
+        width: 45px;
+        height: 45px;
+        font-size: 1em;
     }
 
     .score, .high-score {
         font-size: 0.8em;
+        margin: 10px 0;
     }
 
-    .control-instructions {
-        display: none; /* Cacher les instructions clavier sur mobile */
+    /* Ajuster les modales pour mobile */
+    .modal-content {
+        width: 90%;
+        max-width: 300px;
+        padding: 15px;
+    }
+
+    .modal-title {
+        font-size: 1.2em;
+    }
+}
+
+/* Ajuster la grille pour les scores */
+@media (max-width: 768px) {
+    .high-scores-header, .high-score-item {
+        font-size: 0.8em;
+        padding: 8px;
+        gap: 10px;
+    }
+
+    .high-scores-list {
+        max-height: 250px;
     }
 }
 
