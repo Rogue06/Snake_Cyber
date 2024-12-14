@@ -1240,3 +1240,36 @@ body.game-active .mobile-controls {
     background: rgba(0, 255, 255, 0.3);
     transform: scale(0.95);
 }
+
+/* Masquer les contrôles mobiles par défaut */
+.mobile-controls, .d-pad {
+    display: none;
+}
+
+/* Afficher les contrôles uniquement sur mobile */
+@media (max-width: 768px) {
+    .game-active .mobile-controls,
+    .game-active .d-pad {
+        display: block;
+    }
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.cyber-frame {
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.game-controls {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
